@@ -11,10 +11,12 @@
 #include "TwoD_Array.hpp"
 #include "GridSum.hpp"
 
+TwoD_Array<int> * arr;
+
 // Perform the precomputation step here
 GridSum::GridSum (TwoD_Array<int>& grid) {
-	TwoD_Array<int> * arr = new 
-		TwoD_Array<int>(grid.getNumRows(), grid.getNumCols());
+	arr = new TwoD_Array<int>(grid.getNumRows(), 
+		grid.getNumCols());
 
 	for(int i = 0; i < grid.getNumCols(); i++){
 		arr->at(0,i) = grid.at(0,i);
@@ -33,13 +35,21 @@ GridSum::GridSum (TwoD_Array<int>& grid) {
 	}
 
 arr->printOut();
-
-	//grid = arr;
 }
 
 // Perform the query step here
 int GridSum::query (int x1, int y1, int x2, int y2) {
-  return 0;
+	int total = arr->at(x2, y2);
+	if(x1 > 0){
+		total -= arr->at(x1-1,y2);
+	}
+	if(y1 > 0){
+		total -= arr->at(x2,y1-1);
+	}
+	if(x1 > 0 && y1 >0){
+		total += arr->at(x1-1,y1-1);
+	}
+  return total;
 }
 
 #endif
