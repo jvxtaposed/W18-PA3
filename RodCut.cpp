@@ -35,23 +35,23 @@ int rodcut(std::map<int, int> prices, int length) {
 		store.emplace(itp->first, 0);
 	}
 	//length of zero will return a cost of 0
-	store.emplace(0,0);
+	//store.emplace(0,0);
 	int in, check;
 
 	for(in = 1; in<= length; in++){
-		int maxCost = 0;
+		int maxCost = prices.find(in)->second;
 		for(check = 0; check < in; check++){
 			std::cout<<"in: " << in <<" j: "<< check 
 				<<" prices[j]: " << prices.find(check)->second
 				<<" store[i-j-1]: " << store.find(in - check - 1)->second << std::endl;
 			int checkCost = prices.find(check)->second 
-				+ store.find(in - check - 1)->second;
-		std::cout <<"checkCost: "<< checkCost << std::endl;
+				+ store.find(in - check)->second;
 			maxCost = MAX(maxCost, checkCost);
-
-		std::cout<<"maxCost: "<< maxCost << std::endl;
 		}
-		store.emplace(in, maxCost);
+	std::cout<<"inserting maxCost: "<< maxCost <<std::endl;
+		store[in] = maxCost;
+	std::cout<<"store[i]: " << store.find(in)->second<<std::endl;
+
 	}
 for(auto it= store.begin(); it != store.end(); it++){
 	std::cout << "len: " << it->first <<" value: " << it->second << std::endl;
