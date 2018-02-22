@@ -13,7 +13,26 @@
 
 // Perform the precomputation step here
 GridSum::GridSum (TwoD_Array<int>& grid) {
+	TwoD_Array<int> * arr = new 
+		TwoD_Array<int>(grid.getNumRows(), grid.getNumCols());
 
+	for(int i = 0; i < grid.getNumCols; i++){
+		arr.at(0,i) = grid.at(0,i);
+	}
+
+	for(int i = 1; i<grid.getNumRows; i++){
+		for(int j = 0; j<grid.getNumCols; j++){
+			arr.at(i,j) = grid.at(i,j) + arr(i-1, j);
+		}
+	}
+
+	for(int i = 0; i<grid.getNumRows; i++){
+		for(int j = 1; j<grid.getNumCols; j++){
+			arr.at(i,j) = arr.at(i,j) + arr(i, j-1);
+		}
+	}
+
+	grid = arr;
 }
 
 // Perform the query step here
