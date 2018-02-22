@@ -11,23 +11,25 @@
 #include "LCS.hpp"
 
 
-static backtrack( TwoD_Array<int> * T, std::string s1, std::string s2, i, j){
-	if(i = 0 || j = 0){
+std::string backtrack( TwoD_Array<int> * T, std::string s1, std::string s2, int i, int j){
+	std::string s;
+	if(i == 0 || j == 0){
 		return "";
 	}
 	if(s1.at(i) == s2.at(j)){
-		return backtrack(T, s1, s2, i-1, j-1) + s1.at(i);
+	 	s.push_back(s1.at(i));	
+		return backtrack(T, s1, s2, i-1, j-1) + s;
 	}
-	if( T[i, j-1] > T[i-1, j]){
-		return backtrack(T, s1, s2, i, j-1)
+	if( T->at(i, j-1) > T->at(i-1, j)){
+		return backtrack(T, s1, s2, i, j-1);
 	}
 	return backtrack(T, s1, s2, i-1, j);
 }
 
 std::string lcs(std::string s1, std::string s2) {
 
-	int n = s1.length;
-	int m = s2.length;
+	int n = s1.length();
+	int m = s2.length();
 
 	TwoD_Array<int> * T = new TwoD_Array<int>(m+1,n+1);
 	//initialize left col
