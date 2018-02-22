@@ -19,7 +19,7 @@
         for in= 1 to n
             maxCost := 0
             for check= 1 to in  //Find the max cut position for the length check
-                maxCost := MAX(maxCost, price[i] + stored[j-i]
+                maxCost := MAX(maxCost, price[in] + stored[in-check]
             
             stored(in) := maxCost
 
@@ -28,36 +28,43 @@
 */
 
 int rodcut(std::map<int, int> prices, int length) {
-	//create a map to store precalculated values
+
+	//create a map to store precalculated values with the length as the key
 	std::map<int, int> store;
 
 	for(auto itp = prices.begin(); itp != prices.end(); itp ++){
 		store.emplace(itp->first, 0);
 	}
 	//length of zero will return a cost of 0
-	//store.emplace(0,0);
-	int in, check;
+	store.emplace(0,0);
+	int in = 0;
+	int check = 0;
 
 	for(in = 1; in<= length; in++){
 		int maxCost = prices.find(in)->second;
 		for(check = 0; check < in; check++){
+			/*
 			std::cout<<"in: " << in <<" j: "<< check 
 				<<" prices[j]: " << prices.find(check)->second
 				<<" store[i-j]: " << store.find(in - check - 1)->second << std::endl;
+				*/
 			int checkCost = prices.find(check)->second 
 				+ store.find(in - check)->second;
+				/*
 		std::cout <<"checkCost: "<< checkCost << std::endl;
+		*/
 			maxCost = MAX(maxCost, checkCost);
-
-		std::cout<<"maxCost: "<< maxCost << std::endl;
 		}
-		std::cout<<"inserting maxCost: "<< maxCost <<std::endl;	
+		//std::cout<<"inserting maxCost: "<< maxCost <<std::endl;	
 		store[in] = maxCost;
-	    std::cout<<"store[i]: " << store.find(in)->second<<std::endl;
+	    //std::cout<<"store[i]: " << store.find(in)->second<<std::endl;
 	}
+
+	/*
 for(auto it= store.begin(); it != store.end(); it++){
 	std::cout << "len: " << it->first <<" value: " << it->second << std::endl;
 }
+*/
 return store.find(length)->second;
 
 }
