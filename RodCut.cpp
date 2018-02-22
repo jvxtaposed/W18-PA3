@@ -21,12 +21,10 @@ if length > 0 {
 */
 
 int rodcut(std::map<int, int> prices, int length) {
-	int maxCost = 0;
-
 	//create a map to store precalculated values
 	std::map<int, int> store;
 
-	for(auto itp = prices.begin(); itp != fees.end(); itp ++){
+	for(auto itp = prices.begin(); itp != prices.end(); itp ++){
 		store.emplace(itp->first, 0);
 	}
 	//length of zero will return a cost of 0
@@ -34,13 +32,24 @@ int rodcut(std::map<int, int> prices, int length) {
 	int in, check;
 
 	for(in = 1; in<= length; in++){
+		int maxCost = 0;
 		for(check = 0; check < in; check++){
-			int checkCost = price.find(j) + store.find(in - check - 1);
-			maxCost = max(maxCost, checkCost);
+			std::cout<<"in: " << in <<" j: "<< check 
+				<<" prices[j]: " << prices.find(check)->second
+				<<" store[i-j-1]: " << store.find(in - check - 1)->second << std::endl;
+			int checkCost = prices.find(check)->second 
+				+ store.find(in - check - 1)->second;
+		std::cout <<"checkCost: "<< checkCost << std::endl;
+			maxCost = MAX(maxCost, checkCost);
+
+		std::cout<<"maxCost: "<< maxCost << std::endl;
 		}
 		store.emplace(in, maxCost);
 	}
-return store.find(length);
+for(auto it= store.begin(); it != store.end(); it++){
+	std::cout << "len: " << it->first <<" value: " << it->second << std::endl;
+}
+return store.find(length)->second;
 
 /*
 
@@ -52,6 +61,5 @@ return store.find(length);
 
 	}
 	*/
-  return total;
 }
 #endif
