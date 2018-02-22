@@ -2,7 +2,7 @@
 //
 // Name: Jennifer Fung
 // PID: A12099804
-// Sources of Help: Berkeley EECS Dynamic programming lecture chapter 6, textbook, lecture DP
+// Sources of Help: UTdallas powerpoint slide, textbook, lecture on DP, PA3 slides
 // Due: February 23rd, 2018 at 11:59 PM
 
 #ifndef __RODCUT_CPP__
@@ -13,10 +13,17 @@
 #include <iostream>
 
 /*
-if length == 0, then $ = 0
-if length > 0 {
-	max val = max(max_val, price[j])
-}
+//algorithm derived from a university of texas dallas powerpoint slide 
+//and made relevant to the problem
+        stored: array(1..n) //precalculated values are stored in there
+        for in= 1 to n
+            maxCost := 0
+            for check= 1 to in  //Find the max cut position for the length check
+                maxCost := MAX(maxCost, price[i] + stored[j-i]
+            
+            stored(in) := maxCost
+
+        return stored(n) //bc the maximum cost value will already be stored there
 
 */
 
