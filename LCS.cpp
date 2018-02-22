@@ -9,6 +9,7 @@
 #define __LCS_CPP__
 
 #include "LCS.hpp"
+#include <iostream>
 
 
 std::string backtrack( TwoD_Array<int> * T, std::string s1, std::string s2, int i, int j){
@@ -18,6 +19,7 @@ std::string backtrack( TwoD_Array<int> * T, std::string s1, std::string s2, int 
 	}
 	if(s1.at(i) == s2.at(j)){
 	 	s.push_back(s1.at(i));	
+	 	std::cout<<"s: " << s << endl;
 		return backtrack(T, s1, s2, i-1, j-1) + s;
 	}
 	if( T->at(i, j-1) > T->at(i-1, j)){
@@ -37,12 +39,12 @@ std::string lcs(std::string s1, std::string s2) {
 		T->at(i,0) = 0;
 	}
 	//initialize top row
-	for(int c = 0; c < n; c++){
-		T->at(0,c) = 0;
+	for(int j = 0; j < n; j++){
+		T->at(0,j) = 0;
 	}
 	//iterate thru arr to get the length of the LCS
-	for(int i = 1; i < n; i++){
-		for( int j = 1; j < m; j++){
+	for(int i = 1; i < m; i++){
+		for( int j = 1; j < n; j++){
 			if(s1.at(i) == s2.at(i)){
 				T->at(i,j) = T->at(i-1, j-1) + 1;
 			}
@@ -51,6 +53,7 @@ std::string lcs(std::string s1, std::string s2) {
 			}
 		}
 	}
+	T->printOut();
 
 	//now time to 
 	backtrack(T, s1, s2, m, n);
