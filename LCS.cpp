@@ -11,15 +11,15 @@
 #include "LCS.hpp"
 #include <iostream>
 
-
+std::string s = "";
 std::string backtrack( TwoD_Array<int> * T, std::string s1, std::string s2, int i, int j){
-	std::string s;
 	if(i == 0 || j == 0){
-		return "";
+		return s;
 	}
-	if(s1.at(i) == s2.at(j)){
-	 	s.push_back(s1.at(i));	
-	 	std::cout<<"s: " << s << endl;
+	if(s1[i] == s2[j]){
+	 	s.push_back(s1[i]);	
+	 	
+		std::cout<<"s: " << s << std::endl;
 		return backtrack(T, s1, s2, i-1, j-1) + s;
 	}
 	if( T->at(i, j-1) > T->at(i-1, j)){
@@ -30,10 +30,11 @@ std::string backtrack( TwoD_Array<int> * T, std::string s1, std::string s2, int 
 
 std::string lcs(std::string s1, std::string s2) {
 
-	int n = s1.length();
-	int m = s2.length();
-
-	TwoD_Array<int> * T = new TwoD_Array<int>(m+1,n+1);
+	int m = s1.length();
+	int n = s2.length();
+	std::cout<<"s1 len: " << n << std::endl;
+	std::cout<<"s2 len: " << m << std::endl;
+	TwoD_Array<int> * T = new TwoD_Array<int>(m,n);
 	//initialize left col
 	for(int i = 0; i < m; i++){
 		T->at(i,0) = 0;
@@ -45,7 +46,8 @@ std::string lcs(std::string s1, std::string s2) {
 	//iterate thru arr to get the length of the LCS
 	for(int i = 1; i < m; i++){
 		for( int j = 1; j < n; j++){
-			if(s1.at(i) == s2.at(i)){
+		//std::cout<< "s1[i]= "<<s1[i]<<" s2[j]= "<<s2[j] << std::endl;
+			if(s1[i] == s2[j]){
 				T->at(i,j) = T->at(i-1, j-1) + 1;
 			}
 			else{
@@ -55,9 +57,9 @@ std::string lcs(std::string s1, std::string s2) {
 	}
 	T->printOut();
 
-	//now time to 
+	//now time to RETURN THE LETTERS!!!!!
 	backtrack(T, s1, s2, m, n);
 
-  return "";
+  return s;
 }
 #endif
