@@ -39,7 +39,6 @@ arr->printOut();
 
 // Perform the query step here
 int GridSum::query (int x1, int y1, int x2, int y2) {
-	/*
 	int total = arr->at(x2, y2);
 	if(x1 > 0){
 		total -= arr->at(x1-1,y2);
@@ -51,9 +50,8 @@ int GridSum::query (int x1, int y1, int x2, int y2) {
 		total += arr->at(x1-1,y1-1);
 	}
   return total;
-  */
 
-  return arr->at(x2, y2) - arr->at(x1-1,y2) - arr->at(x2,y1-1) + arr->at(x1-1,y1-1);
+  //return arr->at(x2, y2) - arr->at(x1-1,y2) - arr->at(x2,y1-1) + arr->at(x1-1,y1-1);
 }
 
 #endif
