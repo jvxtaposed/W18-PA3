@@ -85,7 +85,7 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 	int minSize = -1;
 
 	//initialized 
-	TwoD_Array<int> * arr = new TwoD_Array<int>(1,USBsize);
+	TwoD_Array<int> * arr = new TwoD_Array<int>(files.size() , USBsize);
 	for(int c = 1; c <= USBsize; c++){
 		arr->at(0,c) = 0;
 	}
@@ -98,20 +98,20 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 				arr->at(i,j)=0;
 			}
 			*/
-			else if(files[i] <= j){
+			if(files[i] <= j){
 				std::cout<<"files["<<i<<"] < "<<j<<std::endl;
 				//int checkSize = files[j] + arr->at(i-1, USBsize - files-i];
 				arr->at(i,j) = MIN(arr->at(i-1,j), 
-					1 + arr[i-1,j-files[i]])
+					1 + arr[i-1,j-files[i]]);
 
 			}
 			else{
-
+				arr->at(i,j) = arr->at(i-1,j);
 			}
 		}
 	}
 
 
-  return 0;
+  return arr->at(file.size(), USBsize);
 }
 #endif
