@@ -84,55 +84,41 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 
 
 int find_files_dp(int USBsize, std::vector<int>& files) {
-	//vector<int> val;
-	TwoD_Array<int> * val = new TwoD_Array<int>(1, USBsize);
-	int i, j, size;
-	int minSize = -1;
+	TwoD_Array<int> * T = new TwoD_Array<int>(1, USBsize+1);
+	TwoD_Array<int> * cost = new TwoD_Array<int>(1, USBsize+1);
 
-	//initialized 
-	TwoD_Array<int> * arr = new TwoD_Array<int>(files.size()+1 , USBsize+1);
-	for(int c = 0; c <= USBsize; c++){
-		//initializating 0th row as INF
-		arr->at(0,c) = big;
+	//initialize tabulation array to fucking infinity
+	T->at(0,0) = 0;
+	for(int i = 1; i <= USBsize; i++){
+		T->at(0,i) = big;
 	}
-	for(int c =0; c < USBsize; c++){
-		//push back values into val
-		val->at(0,c) = files[c];
-		std::cout<<"val["<<c<<"]: "<< val->at(0,c) <<std::endl;
-		
+	T->printOut();
+
+	//initialize
+	for(int i = 0; i <= USBsize; i++){
+		cost->at(0,i) = -1;
 	}
-	arr->printOut();
+	cost->printOut();
 
-	//initializing col
-	for( int f = 0; f < files.size(); f++){
-		arr->at(f,0)=0;
-	}
-
-	for(i = 1;  i<= files.size(); i++){
-		for(j= 0; j< USBsize ; j++){
-			/*
-			if( i==0 || j==0){
-				arr->at(i,j)=0;
-			}
-			*/
-				//std::cout<<"files["<<files[i]<<"] < "<<USBsize<<std::endl;
-		//if
-			 
-			if(files[i] < USBsize){
-				std::cout<<"files["<<files[i]<<"] < "<<USBsize<<std::endl;
-				
-				int checkCost = val->at(0,j) + arr->at(i, j-files[i]+1);
-				arr->at(i,j) = MIN(arr->at(i,j+1), checkCost);
-				val->at(0,j) = arr->at(i,j+1);
-
-			}
-			else{
-				arr->at(i,j+1) = arr->at(i,j+1);
+	//currCap is the current capacity
+	for(int currCap = 1; currCap<= USBsize; currCap++){
+		int maxCost = files[currCap];
+		std::cout<<"files["<<currCap<<"]: "<<files[currCap] << std::endl;
+		//currF is the current file size
+		for(int currF = 0; currF < currCap; currF++){
+			std::cout<<currCap<<">="<<files[currF] <<std::endl;
+			if( currCap >= files[currF] ){
+				int checkCost = 1 + T->at(0, i - files[currF]);
+				maxCost = MIN(maxCost, checkCost);
 			}
 		}
+		T->printOut();
+		std::cout<<"storing maxCost: "<<maxCost<<" at "<< i<<std::endl;
+		T->at(0, i) = maxCost;
 	}
-	arr->printOut();
 
-  return arr->at(files.size(), USBsize);
+
+
+
 }
 #endif

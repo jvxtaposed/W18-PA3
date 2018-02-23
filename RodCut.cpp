@@ -28,6 +28,7 @@ int rodcut(std::map<int, int> prices, int length) {
 	for(in = 1; in<= length; in++){
 		int maxCost = prices.find(in)->second;
 		for(check = 0; check < in; check++){
+			
 			/*
 			std::cout<<"in: " << in <<" j: "<< check 
 				<<" prices[j]: " << prices.find(check)->second
