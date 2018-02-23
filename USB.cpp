@@ -61,18 +61,18 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	}
 	
 		for (auto it = files.begin(); it != files.end(); ++it) {
-	    	if (USBsize == *it) {   // 1 is the minimum number of possible files
-	     		return 1;
-	    	}
-	    	else if (USBsize > *it) {
-	    		//store it into the auxiliary for later use
-	    		
-	    		// assume per the problem statement that the USB size is always met
-	    		int files_used = find_files_memoized(USBsize - *it, files) + 1;
-	    		if (min == -1 || (files_used < min && files_used > 0)) {
-	       			min = files_used;
-	       			store[USBsize] = files_used;
+	    		if (USBsize == *it) {   // 1 is the minimum number of possible files
+	    	 		return 1;
 	    		}
+	    		else if (USBsize > *it) {
+	    			//store it into the auxiliary for later use
+	    		
+	    			// assume per the problem statement that the USB size is always met
+	    			int files_used = find_files_memoized(USBsize - *it, files) + 1;
+	    			if (min == -1 || (files_used < min && files_used > 0)) {
+	       				min = files_used;
+	       				store[USBsize] = files_used;
+	    			}
 	   		}
 	    // do nothing if file size is larger than the USB size
 		}
@@ -101,23 +101,28 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 	cost->printOut();
 
 	//currCap is the current capacity
-	for(int currCap = 1; currCap<= USBsize; currCap++){
+	for(int currCap = 0; currCap< files.size(); currCap++){
 		int maxCost = files[currCap];
 		std::cout<<"files["<<currCap<<"]: "<<files[currCap] << std::endl;
 		//currF is the current file size
-		for(int currF = 0; currF < currCap; currF++){
+		for(int currF = 1; currF <= USBsize; currF++){
 			std::cout<<currCap<<">="<<files[currF] <<std::endl;
-			if( currCap >= files[currF] ){
-				int checkCost = 1 + T->at(0, i - files[currF]);
-				maxCost = MIN(maxCost, checkCost);
+			if( currF >= files[currCap] ){
+				int checkCost = 1 + T->at(0, currF - files[currCap]);
+				if(T->at(0,currF) > checkCost) {
+		
+					T->at(0, currF) = checkCost;
+					cost->at(0, currF) = currCap;
+				//	maxCost = MIN(maxCost, checkCost);
+				}
 			}
 		}
 		T->printOut();
-		std::cout<<"storing maxCost: "<<maxCost<<" at "<< i<<std::endl;
-		T->at(0, i) = maxCost;
+		std::cout<<"storing maxCost: "<<maxCost<<" at "<< currCap<<std::endl;
+//		T->at(0, currCap) = maxCost;
 	}
-
-
+	T->printOut();
+	return T->at(0,USBsize+1);
 
 
 }
