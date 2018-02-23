@@ -43,7 +43,7 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	int min = 0;
 	//create an aux map to tabulate w/ USB sizes as key
 	for(int itp = 1; itp <= USBsize;  itp ++) {
-		store.emplace(itp, 0);
+		store.emplace(itp, -1);
 	}
 	/*
 	for(auto it = store.begin(); it != store.end(); it++){
@@ -52,7 +52,7 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	}
 	*/
 	//before going into for loop, chck if it's already in the tabulated aux map
-	if(store[USBsize] != 0){
+	if(store[USBsize] != -1){
 		std::cout<<"aux("<<USBsize<<"): "
 			<<store[USBsize]<<" + "<< min << std::endl;
 		return store[USBsize] + min;
@@ -69,12 +69,12 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	    			int files_used = find_files_memoized(USBsize - *it, files) + 1;
 	    			if (min == 0 || (files_used < min && files_used > 0)) {
 	       				min = files_used;
-	       				store[USBsize] = files_used;
+	       				store[USBsize+1] = files_used;
 	    			}
 	   		}
 	    // do nothing if file size is larger than the USB size
 		}
-  return min;
+  return store[USBsize];
 }
 
 
