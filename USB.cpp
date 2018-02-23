@@ -123,7 +123,7 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 	}
 	//T->printOut();
 	std::cout<<"last elem in T: "<<T->at(0,USBsize+1)<<std::endl;
-	return T->at(0,USBsize+1);
+	return T->at(0,USBsize);
 
 
 }
