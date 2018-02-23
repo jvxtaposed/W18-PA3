@@ -38,13 +38,12 @@ int find_files_naive(int USBsize, std::vector<int>& files) {
 
 
 std::map<int, int> store;
-
-int min1 = 0; 
 int find_files_memoized(int USBsize, std::vector<int>& files) {
 	//create an aux map to tabulate w/ USB sizes as key
 	for(int itp = 1; itp <= USBsize;  itp ++) {
 		store.emplace(itp, -1);
 	}
+	int min1 = 0;
 	/*
 	for(auto it = store.begin(); it != store.end(); it++){
 		std::cout<<"aux("<<it->first<<"): "
