@@ -39,16 +39,16 @@ std::map<int, int> store;
 int find_files_memoized(int USBsize, std::vector<int>& files) {
 	int min = -1;
 	//create an aux map to tabulate w/ USB sizes as key
-	for(int itp = 0; itp < USBsize;  itp ++){
+	for(int itp = 1; itp <= USBsize;  itp ++){
 		store.emplace(itp, -1);
 	}
 	for(auto it = store.begin(); it != store.end(); it++){
-		std::cout<<"aux("<<store.find(*it)->first<<"): "
-			<<store.find(*it)->second<<std::endl;
+		std::cout<<"aux("<<it->first<<"): "
+			<<it->second<<std::endl;
 	}
 
 	//before going into for loop, chck if it's already in the tabulated aux map
-	if(store.find(USBsize)->first != -1){
+	if(store.find(USBsize-1)->first != -1){
 		return store.find(USBsize)->second + min;
 	}
 	else{
@@ -60,7 +60,7 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	    		//store it into the auxiliary for later use
 	    		store[USBsize] = *it;
 	    		// assume per the problem statement that the USB size is always met
-	    		int files_used = find_files_naive(USBsize - *it, files) + 1;
+	    		int files_used = find_files_memoized(USBsize - *it, files) + 1;
 	    		if (min == -1 || (files_used < min && files_used > 0)) {
 	       			min = files_used;
 	    		}
@@ -76,7 +76,7 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 
 
 int find_files_dp(int USBsize, std::vector<int>& files) {
-	TwoD_Array<int> * arr = new TwoD_Array<int>()
+	//TwoD_Array<int> * arr = new TwoD_Array<int>()
   return 0;
 }
 #endif
