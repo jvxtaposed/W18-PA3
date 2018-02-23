@@ -39,13 +39,15 @@ int find_files_naive(int USBsize, std::vector<int>& files) {
 
 std::map<int, int> store;
 int find_files_memoized(int USBsize, std::vector<int>& files) {
+	/*
 	//create an aux map to tabulate w/ USB sizes as key
 	for(int itp = 1; itp <= USBsize;  itp ++) {
-		if(store[USBsize] == 0){
+		if(store[USBsize] == 0|| store[USBsize] == -1){
 			store.emplace(itp, -1);
 		}
 	}
-	int min1 = 0;
+	*/
+	int min1 = -1;
 	/*
 	for(auto it = store.begin(); it != store.end(); it++){
 		std::cout<<"aux("<<it->first<<"): "
@@ -53,12 +55,13 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	}
 	*/
 	//before going into for loop, chck if it's already in the tabulated aux map
-	if(store[USBsize] != -1){
+	
+	if(store.find(USBsize) != store.end()){
 		std::cout<<"aux("<<USBsize<<"): "
 			<<store[USBsize]<<" + "<< min1 << std::endl;
 		return store[USBsize];
 	}
-	
+
 		for (auto it = files.begin(); it != files.end(); ++it) {
 	    		if (USBsize == *it) {   // 1 is the minimum number of possible files
 	    	 		return 1;
@@ -68,17 +71,15 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	    		
 	    			// assume per the problem statement that the USB size is always met
 	    			int files_used = find_files_memoized(USBsize - *it, files) + 1;
-	    			if (min1 == 0 || (files_used < min1 && files_used > 0)) {
+	    			if (min1 == -1 || (files_used < min1 && files_used > 0)) {
 	       				min1 = files_used;
-	       				store[USBsize+1] = files_used;
+	       		//		store[USBsize] = files_used;
 	    			}
 	   		}
 	    // do nothing if file size is larger than the USB size
 		}
-	for(auto it = store.begin(); it != store.end(); it++){
-		std::cout<<"key: "<<it->first<<" tab: "<<it->second<< std::endl;
-	}
-  return store[USBsize];
+	store[USBsize] = min1;
+ 	return min1;
 }
 
 
