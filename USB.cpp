@@ -40,7 +40,7 @@ int find_files_naive(int USBsize, std::vector<int>& files) {
 std::map<int, int> store;
 
 int find_files_memoized(int USBsize, std::vector<int>& files) {
-	int min = -1;
+	int min = 0;
 	//create an aux map to tabulate w/ USB sizes as key
 	for(int itp = 1; itp <= USBsize;  itp ++) {
 		store.emplace(itp, 0);
@@ -53,10 +53,8 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	*/
 	//before going into for loop, chck if it's already in the tabulated aux map
 	if(store[USBsize] != 0){
-	/*
 		std::cout<<"aux("<<USBsize<<"): "
-			<<store[USBsize]<<std::endl;
-	*/
+			<<store[USBsize]<<" + "<< min << std::endl;
 		return store[USBsize] + min;
 	}
 	
@@ -69,7 +67,7 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	    		
 	    			// assume per the problem statement that the USB size is always met
 	    			int files_used = find_files_memoized(USBsize - *it, files) + 1;
-	    			if (min == -1 || (files_used < min && files_used > 0)) {
+	    			if (min == 0 || (files_used < min && files_used > 0)) {
 	       				min = files_used;
 	       				store[USBsize] = files_used;
 	    			}
@@ -122,7 +120,7 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 //		T->at(0, currCap) = maxCost;
 	}
 	//T->printOut();
-	std::cout<<"last elem in T: "<<T->at(0,USBsize+1)<<std::endl;
+	std::cout<<"last elem in T: "<<T->at(0,USBsize)<<std::endl;
 	return T->at(0,USBsize);
 
 
