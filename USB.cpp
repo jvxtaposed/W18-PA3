@@ -8,11 +8,12 @@
 #ifndef __USB_CPP__
 #define __USB_CPP__
 
+#include <vector>
 #include <map>
 #include "USB.hpp"
 #include "TwoD_Array.hpp"
 
-int MIN(int x, int y) { return (x < y)? x : y; }
+int MIN(int x, int y) { return (x > y)? x : y; }
 
 int find_files_naive(int USBsize, std::vector<int>& files) {
   int min = -1;
@@ -36,24 +37,25 @@ int find_files_naive(int USBsize, std::vector<int>& files) {
 
 
 std::map<int, int> store;
+
 int find_files_memoized(int USBsize, std::vector<int>& files) {
 	int min = -1;
 	//create an aux map to tabulate w/ USB sizes as key
-	for(int itp = 1; itp <= USBsize;  itp ++){
+	for(int itp = 1; itp <= USBsize;  itp ++) {
 		store.emplace(itp, 0);
 	}
-/*
+	/*
 	for(auto it = store.begin(); it != store.end(); it++){
 		std::cout<<"aux("<<it->first<<"): "
 			<<it->second<<std::endl;
 	}
-*/
+	*/
 	//before going into for loop, chck if it's already in the tabulated aux map
 	if(store[USBsize] != 0){
-/*
+	/*
 		std::cout<<"aux("<<USBsize<<"): "
 			<<store[USBsize]<<std::endl;
-*/
+	*/
 		return store[USBsize] + min;
 	}
 	
@@ -81,28 +83,37 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 
 
 int find_files_dp(int USBsize, std::vector<int>& files) {
+	vector<int> val;
 	int i, j;
 	int minSize = -1;
 
 	//initialized 
-	TwoD_Array<int> * arr = new TwoD_Array<int>(files.size() , USBsize);
-	for(int c = 1; c <= USBsize; c++){
-		arr->at(0,c) = 0;
+	TwoD_Array<int> * arr = new TwoD_Array<int>(files.size()+1 , USBsize+1);
+	for(int c = 0; c < USBsize; c++){
+		//initializating 0th row as INF
+		arr->at(0,c) = -1;
+		//push back values into val
+		val[i] = files[i];
 	}
 	arr->printOut();
 
+	//initializing col
+	for( int f = 1; f <= files.size(); f++){
+		arr->at(f,0)=0;
+	}
+
 	for(i = 0;  i< files.size(); i++){
-		for(j= 0; j< i; j++){
+		for(j= 0; j< USBsize ; j++){
 			/*
 			if( i==0 || j==0){
 				arr->at(i,j)=0;
 			}
 			*/
 				//std::cout<<"files["<<files[i]<<"] < "<<USBsize<<std::endl;
-		
+		//if 
 			if(files[i] <= USBsize){
 				std::cout<<"files["<<files[i]<<"] < "<<USBsize<<std::endl;
-				int checkCost = 1 + arr->at(i-1, j-files[i]);
+				int checkCost = val[i-1] + arr->at(i-1, j-files[i]);
 				arr->at(i,j) = MIN(arr->at(i-1,j), checkCost);
 
 			}
