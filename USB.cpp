@@ -12,7 +12,7 @@
 #include "USB.hpp"
 #include "TwoD_Array.hpp"
 
-int MAX(int x, int y) { return (x > y)? x : y; }
+int MIN(int x, int y) { return (x < y)? x : y; }
 
 int find_files_naive(int USBsize, std::vector<int>& files) {
   int min = -1;
@@ -58,11 +58,14 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	    	}
 	    	else if (USBsize > *it) {
 	    		//store it into the auxiliary for later use
-	    		store[USBsize] = *it;
+	    		
 	    		// assume per the problem statement that the USB size is always met
 	    		int files_used = find_files_memoized(USBsize - *it, files) + 1;
+	    		std::cout<<"files_used: "<< files_used << std::endl;
 	    		if (min == -1 || (files_used < min && files_used > 0)) {
 	       			min = files_used;
+	       			//std::cout<<"inserting maxCost: "<< maxCost <<std::endl;	
+	       			store[USBsize] = files_used;
 	    		}
 	   		}
 	    // do nothing if file size is larger than the USB size
@@ -76,7 +79,23 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 
 
 int find_files_dp(int USBsize, std::vector<int>& files) {
-	//TwoD_Array<int> * arr = new TwoD_Array<int>()
+	TwoD_Array<int> * arr = new TwoD_Array<int>(USBsize+1, files+1);
+	int i, j;
+	for(i = 0; i < USBsize; i++){
+		for(j= 0; j< files.size(); j++){
+			if( i==0 || j==0){
+				arr[i][j]=0;
+			}
+			else if(files[i-1] < j){
+
+			}
+			else{
+
+			}
+		}
+	}
+
+
   return 0;
 }
 #endif
