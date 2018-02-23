@@ -19,7 +19,6 @@ std::string backtrack( TwoD_Array<int> * T, std::string s1, std::string s2, int 
 	if(s1[i] == s2[j]){
 	// 	s.push_back(s1[i]);	
 	 s = s1[i] + s;	
-		std::cout<<"s: " << s << std::endl;
 		return backtrack(T, s1, s2, i-1, j-1) + s;
 	}
 	if( T->at(i+1, j) > T->at(i, j+1)){
@@ -32,8 +31,6 @@ std::string lcs(std::string s1, std::string s2) {
 
 	int m = s1.length();
 	int n = s2.length();
-	std::cout<<"s1 len: " << n << std::endl;
-	std::cout<<"s2 len: " << m << std::endl;
 	TwoD_Array<int> * T = new TwoD_Array<int>(m+1,n+1);
 	//initialize left col
 	for(int i = 0; i <= m; i++){
@@ -47,8 +44,7 @@ std::string lcs(std::string s1, std::string s2) {
 	for(int i = 0; i < m; i++){
 		for( int j = 0; j < n; j++){
 	
-			if(s1[i] == s2[j]){
-			std::cout<< "s1[i]= "<<s1[i]<<" s2[j]= "<<s2[j] << std::endl;	
+			if(s1[i] == s2[j]){	
 				T->at(i+1,j+1) = T->at(i, j) + 1;
 			}
 			else{
@@ -56,7 +52,7 @@ std::string lcs(std::string s1, std::string s2) {
 			}
 		}
 	}
-	T->printOut();
+	//T->printOut();
 
 	//now time to RETURN THE LETTERS!!!!!
 	backtrack(T, s1, s2, m, n);

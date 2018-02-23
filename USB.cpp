@@ -39,36 +39,19 @@ int find_files_naive(int USBsize, std::vector<int>& files) {
 
 std::map<int, int> store;
 int find_files_memoized(int USBsize, std::vector<int>& files) {
-	/*
-	//create an aux map to tabulate w/ USB sizes as key
-	for(int itp = 1; itp <= USBsize;  itp ++) {
-		if(store[USBsize] == 0|| store[USBsize] == -1){
-			store.emplace(itp, -1);
-		}
-	}
-	*/
+
 	int min1 = -1;
-	/*
-	for(auto it = store.begin(); it != store.end(); it++){
-		std::cout<<"aux("<<it->first<<"): "
-			<<it->second<<std::endl;
-	}
-	*/
+
 	//before going into for loop, chck if it's already in the tabulated aux map
-	
 	if(store.find(USBsize) != store.end()){
-		std::cout<<"aux("<<USBsize<<"): "
-			<<store[USBsize]<<" + "<< min1 << std::endl;
 		return store[USBsize];
 	}
-
 		for (auto it = files.begin(); it != files.end(); ++it) {
 	    		if (USBsize == *it) {   // 1 is the minimum number of possible files
 	    	 		return 1;
 	    		}
 	    		else if (USBsize > *it) {
-	    			//store it into the auxiliary for later use
-	    		
+	    			
 	    			// assume per the problem statement that the USB size is always met
 	    			int files_used = find_files_memoized(USBsize - *it, files) + 1;
 	    			if (min1 == -1 || (files_used < min1 && files_used > 0)) {
@@ -78,6 +61,7 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	   		}
 	    // do nothing if file size is larger than the USB size
 		}
+	//store it into the auxiliary for later use
 	store[USBsize] = min1;
  	return min1;
 }
@@ -106,10 +90,8 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 	//currF is the current file size
 	for(int currF = 0; currF< files.size(); currF++){
 		int maxCost = files[currF];
-		std::cout<<"files["<<currF<<"]: "<<files[currF] << std::endl;
 		//currCap is the current USB capacity
 		for(int currCap = 1; currCap <= USBsize; currCap++){
-			std::cout<<currF<<">="<<files[currCap] <<std::endl;
 			if( currCap >= files[currF] ){
 				int checkCost = 1 + T->at(0, currCap - files[currF]);
 				if(T->at(0,currCap) > checkCost) {
@@ -120,12 +102,11 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 				}
 			}
 		}
-		T->printOut();
+		//T->printOut();
 		//std::cout<<"storing maxCost: "<<maxCost<<" at "<< currF<<std::endl;
 //		T->at(0, currCap) = maxCost;
 	}
 	//T->printOut();
-	std::cout<<"last elem in T: "<<T->at(0,USBsize)<<std::endl;
 	return T->at(0,USBsize);
 
 

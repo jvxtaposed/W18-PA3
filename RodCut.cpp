@@ -46,11 +46,6 @@ int rodcut(std::map<int, int> prices, int length) {
 	    //std::cout<<"store[i]: " << store.find(in)->second<<std::endl;
 	}
 
-	/*
-for(auto it= store.begin(); it != store.end(); it++){
-	std::cout << "len: " << it->first <<" value: " << it->second << std::endl;
-}
-*/
 return store.find(length)->second;
 
 }

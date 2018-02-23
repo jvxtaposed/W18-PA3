@@ -34,7 +34,6 @@ GridSum::GridSum (TwoD_Array<int>& grid) {
 		}
 	}
 
-arr->printOut();
 }
 
 // Perform the query step here
