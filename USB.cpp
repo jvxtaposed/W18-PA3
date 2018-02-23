@@ -74,6 +74,9 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	   		}
 	    // do nothing if file size is larger than the USB size
 		}
+	for(auto it = store.begin(); it != store.end(); it++){
+		std::cout<<"key: "<<it->first<<" tab: "<<it->second<< std::endl;
+	}
   return store[USBsize];
 }
 
