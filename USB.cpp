@@ -54,7 +54,7 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	if(store[USBsize] != -1){
 		std::cout<<"aux("<<USBsize<<"): "
 			<<store[USBsize]<<" + "<< min1 << std::endl;
-		return store[USBsize] + min1;
+		return store[USBsize];
 	}
 	
 		for (auto it = files.begin(); it != files.end(); ++it) {
