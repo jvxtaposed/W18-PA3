@@ -1,8 +1,8 @@
 // CSE 101 Winter 2016, PA 3
 //
-// Name: TODO put both partners' info if applicable
-// PID: TODO
-// Sources of Help: TODO
+//Name: Jennifer Fung
+// PID: A12099804
+// Sources of Help: textbook, lecture on DP, PA3 slides
 // Due: February 23rd, 2018 at 11:59 PM
 
 #ifndef __GRID_SUM_CPP__

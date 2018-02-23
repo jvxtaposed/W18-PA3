@@ -12,21 +12,6 @@
 #include "RodCut.hpp"
 #include <iostream>
 
-/*
-//algorithm derived from a university of texas dallas powerpoint slide 
-//and made relevant to the problem
-        stored: array(1..n) //precalculated values are stored in there
-        for in= 1 to n
-            maxCost := 0
-            for check= 1 to in  //Find the max cut position for the length check
-                maxCost := MAX(maxCost, price[in] + stored[in-check]
-            
-            stored(in) := maxCost
-
-        return stored(n) //bc the maximum cost value will already be stored there
-
-*/
-
 int rodcut(std::map<int, int> prices, int length) {
 
 	//create a map to store precalculated values with the length as the key
