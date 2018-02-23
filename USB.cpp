@@ -92,36 +92,36 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 	for(int i = 1; i <= USBsize; i++){
 		T->at(0,i) = big;
 	}
-	T->printOut();
+	//T->printOut();
 
 	//initialize
 	for(int i = 0; i <= USBsize; i++){
 		cost->at(0,i) = -1;
 	}
-	cost->printOut();
+	//cost->printOut();
 
-	//currCap is the current capacity
-	for(int currCap = 0; currCap< files.size(); currCap++){
-		int maxCost = files[currCap];
-		std::cout<<"files["<<currCap<<"]: "<<files[currCap] << std::endl;
-		//currF is the current file size
-		for(int currF = 1; currF <= USBsize; currF++){
-			std::cout<<currCap<<">="<<files[currF] <<std::endl;
-			if( currF >= files[currCap] ){
-				int checkCost = 1 + T->at(0, currF - files[currCap]);
-				if(T->at(0,currF) > checkCost) {
+	//currF is the current file size
+	for(int currF = 0; currF< files.size(); currF++){
+		int maxCost = files[currF];
+		std::cout<<"files["<<currF<<"]: "<<files[currF] << std::endl;
+		//currCap is the current USB capacity
+		for(int currCap = 1; currCap <= USBsize; currCap++){
+			std::cout<<currF<<">="<<files[currCap] <<std::endl;
+			if( currCap >= files[currF] ){
+				int checkCost = 1 + T->at(0, currCap - files[currF]);
+				if(T->at(0,currCap) > checkCost) {
 		
-					T->at(0, currF) = checkCost;
-					cost->at(0, currF) = currCap;
+					T->at(0, currCap) = checkCost;
+					cost->at(0, currCap) = currF;
 				//	maxCost = MIN(maxCost, checkCost);
 				}
 			}
 		}
 		T->printOut();
-		std::cout<<"storing maxCost: "<<maxCost<<" at "<< currCap<<std::endl;
+		//std::cout<<"storing maxCost: "<<maxCost<<" at "<< currF<<std::endl;
 //		T->at(0, currCap) = maxCost;
 	}
-	T->printOut();
+	//T->printOut();
 	return T->at(0,USBsize+1);
 
 
