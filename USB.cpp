@@ -40,18 +40,23 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	int min = -1;
 	//create an aux map to tabulate w/ USB sizes as key
 	for(int itp = 1; itp <= USBsize;  itp ++){
-		store.emplace(itp, -1);
+		store.emplace(itp, 0);
 	}
+/*
 	for(auto it = store.begin(); it != store.end(); it++){
 		std::cout<<"aux("<<it->first<<"): "
 			<<it->second<<std::endl;
 	}
-
+*/
 	//before going into for loop, chck if it's already in the tabulated aux map
-	if(store.find(USBsize-1)->first != -1){
-		return store.find(USBsize)->second + min;
+	if(store[USBsize] != 0){
+/*
+		std::cout<<"aux("<<USBsize<<"): "
+			<<store[USBsize]<<std::endl;
+*/
+		return store[USBsize] + min;
 	}
-	else{
+	
 		for (auto it = files.begin(); it != files.end(); ++it) {
 	    	if (USBsize == *it) {   // 1 is the minimum number of possible files
 	     		return 1;
@@ -61,16 +66,13 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 	    		
 	    		// assume per the problem statement that the USB size is always met
 	    		int files_used = find_files_memoized(USBsize - *it, files) + 1;
-	    		std::cout<<"files_used: "<< files_used << std::endl;
 	    		if (min == -1 || (files_used < min && files_used > 0)) {
 	       			min = files_used;
-	       			//std::cout<<"inserting maxCost: "<< maxCost <<std::endl;	
 	       			store[USBsize] = files_used;
 	    		}
 	   		}
 	    // do nothing if file size is larger than the USB size
 		}
-	}
   return min;
 }
 
@@ -79,15 +81,19 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 
 
 int find_files_dp(int USBsize, std::vector<int>& files) {
-	TwoD_Array<int> * arr = new TwoD_Array<int>(USBsize+1, files+1);
+	TwoD_Array<int> * arr = new TwoD_Array<int>(0,USBsize+1);
+	arr->printOut();
 	int i, j;
+	int minSize = -1;
 	for(i = 0; i < USBsize; i++){
-		for(j= 0; j< files.size(); j++){
+		for(j= 0; j< i; j++){
 			if( i==0 || j==0){
-				arr[i][j]=0;
+				arr->at(i,j)=0;
 			}
-			else if(files[i-1] < j){
-
+			else if(files[i] < j){
+	std::cout<<"files["<<i<<"] < "<<j<<std::endl;
+				//int checkSize = files[j] + arr->at(i-1, USBsize - files-i];
+				//arr->at(i,j) = 
 			}
 			else{
 
