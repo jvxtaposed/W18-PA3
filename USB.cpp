@@ -81,17 +81,21 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 
 
 int find_files_dp(int USBsize, std::vector<int>& files) {
-	TwoD_Array<int> * arr = new TwoD_Array<int>(0,USBsize+1);
-	arr->printOut();
 	int i, j;
 	int minSize = -1;
+	TwoD_Array<int> * arr = new TwoD_Array<int>(0,USBsize+1);
+	for(int c = 1; c <= USBsize; c++){
+		arr->at(0,c);
+	}
+	arr->printOut();
+
 	for(i = 0; i < USBsize; i++){
 		for(j= 0; j< i; j++){
 			if( i==0 || j==0){
 				arr->at(i,j)=0;
 			}
 			else if(files[i] < j){
-	std::cout<<"files["<<i<<"] < "<<j<<std::endl;
+				std::cout<<"files["<<i<<"] < "<<j<<std::endl;
 				//int checkSize = files[j] + arr->at(i-1, USBsize - files-i];
 				//arr->at(i,j) = 
 			}
