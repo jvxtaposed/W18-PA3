@@ -98,11 +98,12 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 				arr->at(i,j)=0;
 			}
 			*/
-			if(files[i] <= j){
-				std::cout<<"files["<<i<<"] < "<<j<<std::endl;
-				//int checkSize = files[j] + arr->at(i-1, USBsize - files-i];
-				arr->at(i,j) = MIN(arr->at(i-1,j), 
-					1 + arr[i-1,j-files[i]]);
+				//std::cout<<"files["<<files[i]<<"] < "<<USBsize<<std::endl;
+		
+			if(files[i] <= USBsize){
+				std::cout<<"files["<<files[i]<<"] < "<<USBsize<<std::endl;
+				int checkCost = 1 + arr->at(i-1, j-files[i]);
+				arr->at(i,j) = MIN(arr->at(i-1,j), checkCost);
 
 			}
 			else{
@@ -112,6 +113,6 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 	}
 
 
-  return arr->at(file.size(), USBsize);
+  return arr->at(files.size(), USBsize);
 }
 #endif
