@@ -8,12 +8,13 @@
 #ifndef __USB_CPP__
 #define __USB_CPP__
 
-#include <vector>
+//#include <vector>
 #include <map>
 #include "USB.hpp"
 #include "TwoD_Array.hpp"
 
-int MIN(int x, int y) { return (x > y)? x : y; }
+int MIN(int x, int y) { return (x < y)? x : y; }
+int big = 999999;
 
 int find_files_naive(int USBsize, std::vector<int>& files) {
   int min = -1;
@@ -83,26 +84,31 @@ int find_files_memoized(int USBsize, std::vector<int>& files) {
 
 
 int find_files_dp(int USBsize, std::vector<int>& files) {
-	vector<int> val;
-	int i, j;
+	//vector<int> val;
+	TwoD_Array<int> * val = new TwoD_Array<int>(1, USBsize);
+	int i, j, size;
 	int minSize = -1;
 
 	//initialized 
 	TwoD_Array<int> * arr = new TwoD_Array<int>(files.size()+1 , USBsize+1);
-	for(int c = 0; c < USBsize; c++){
+	for(int c = 0; c <= USBsize; c++){
 		//initializating 0th row as INF
-		arr->at(0,c) = -1;
+		arr->at(0,c) = big;
+	}
+	for(int c =0; c < USBsize; c++){
 		//push back values into val
-		val[i] = files[i];
+		val->at(0,c) = files[c];
+		std::cout<<"val["<<c<<"]: "<< val->at(0,c) <<std::endl;
+		
 	}
 	arr->printOut();
 
 	//initializing col
-	for( int f = 1; f <= files.size(); f++){
+	for( int f = 0; f < files.size(); f++){
 		arr->at(f,0)=0;
 	}
 
-	for(i = 0;  i< files.size(); i++){
+	for(i = 1;  i<= files.size(); i++){
 		for(j= 0; j< USBsize ; j++){
 			/*
 			if( i==0 || j==0){
@@ -110,19 +116,22 @@ int find_files_dp(int USBsize, std::vector<int>& files) {
 			}
 			*/
 				//std::cout<<"files["<<files[i]<<"] < "<<USBsize<<std::endl;
-		//if 
-			if(files[i] <= USBsize){
+		//if
+			 
+			if(files[i] < USBsize){
 				std::cout<<"files["<<files[i]<<"] < "<<USBsize<<std::endl;
-				int checkCost = val[i-1] + arr->at(i-1, j-files[i]);
-				arr->at(i,j) = MIN(arr->at(i-1,j), checkCost);
+				
+				int checkCost = val->at(0,j) + arr->at(i, j-files[i]+1);
+				arr->at(i,j) = MIN(arr->at(i,j+1), checkCost);
+				val->at(0,j) = arr->at(i,j+1);
 
 			}
 			else{
-				arr->at(i,j) = arr->at(i-1,j);
+				arr->at(i,j+1) = arr->at(i,j+1);
 			}
 		}
 	}
-
+	arr->printOut();
 
   return arr->at(files.size(), USBsize);
 }
